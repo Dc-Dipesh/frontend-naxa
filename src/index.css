@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container {
+    @apply px-2 md:px-10 lg:px-20 xl:px-32;
+  }
+}
+/* custom css */
+.more-info p{
+  margin-top: 20px;
+}
+.more-info ul li {
+    padding-left: 40px;
+    position: relative;
+    margin-top: 10px;
+}
+.more-info ul li:before {
+    top: -4px;
+    left: 0;
+    position: absolute;
+    content: url('/icons/check_circle.svg');
+    font-family: Material Icons;
+    color: #ffab00;
+    font-size: 22px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px ;
+
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #ffab00;
+    border-radius: 10px;
+}
