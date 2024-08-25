@@ -14,8 +14,8 @@ This project is a frontend task for a developer role, built using Vite, React, T
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/your-repo-name.git
-    cd your-repo-name
+    git clone https://github.com/Dc-Dipesh/frontend-naxa.git
+    cd frontend-naxa.git
     ```
 
 2. Install the dependencies:
