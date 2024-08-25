@@ -1,50 +1,50 @@
-# React + TypeScript + Vite
+# My Frontend Developer Task
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a frontend task for a developer role, built using Vite, React, TypeScript, TailwindCSS, Leaflet for maps, React Hook Form, and Zod for form validation.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Installation
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the repository:
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+    ```bash
+    git clone https://github.com/your-username/your-repo-name.git
+    cd your-repo-name
+    ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Install the dependencies:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+    ```bash
+    npm install
+    ```
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+3. To build the project for production:
+
+    ```bash
+    npm run build
+    ```
+
+4. To preview the production build locally:
+
+    ```bash
+    npm run preview
+    ```
+
+## Usage
+
+After starting the build server, you can access the application at `http://localhost:4173/`.
+
+## Features
+
+- **React Hooks:** Built with functional components using React Hooks.
+- **API Integration:** Fetches project data from the API and displays it in the UI.
+- **Redux-Saga:** Manages side effects and asynchronous actions with Redux-Saga.
+- **Leaflet Map:** Implements a map with vector tile layers for provinces, districts, and municipalities, with a layer switcher.
+- **Form Submission:** A form that allows users to submit their details with validation (name, address, email, contact, photo, and CV).
+- **Responsive Design:** Styled using TailwindCSS for a modern and responsive UI.

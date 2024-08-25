@@ -12,71 +12,81 @@ import ProjectDetail from "./ProjectDetail"
 
 
 const PortfolioListing = () => {
-  const params = useParams()
-  const [activeProjectId, setActiveProjectId] = useState<number>(0)
-  const ActiveCategory = params.slug
-  const [FilteredProjects, setFilteredProjects] = useState<IProject[]>([])
+  const params = useParams() // Get URL parameters using useParams (e.g., for slug)
+  const [activeProjectId, setActiveProjectId] = useState<number>(0) // State to track the active project ID
+  const ActiveCategory = params.slug // Extract the category slug from the URL parameters
+  const [FilteredProjects, setFilteredProjects] = useState<IProject[]>([]) // State to store filtered projects based on the active category
+
+  // Initialize dispatch to trigger Redux actions
   const dispatch = useDispatch()
+
+  // Extract projects, loading, and error states from the Redux store
   const { projects, loading, error } = useSelector(
     (state: RootState) => state.projects
   )
 
-   useEffect(() => {
-     if (projects.length === 0 && !loading) {
-       dispatch({ type: "projects/fetchProjectsRequest" })
-     }
-   }, [dispatch, projects, loading])
-   const CategoryList = projects
-     .flatMap((project) =>
-       project.category.map((catId: number, index: number) => ({
-         id: catId,
-         title: project.category_title[index],
-         slug: slugify(project.category_title[index]),
-         description: project.category_description[index],
-       }))
-     )
-     .filter(
-       (category, index: number, self) =>
-         index === self.findIndex((cat) => cat.id === category.id)
-     )
-   const ActiveCategoryId = CategoryList.find(
-     (category) => category.slug === ActiveCategory
-   )?.id
+  // Fetch projects if not already loaded when the component mounts
+  useEffect(() => {
+    if (projects.length === 0 && !loading) {
+      // Dispatch action to fetch projects from the API
+      dispatch({ type: "projects/fetchProjectsRequest" })
+    }
+  }, [dispatch, projects, loading]) // Dependencies: dispatch, projects, loading
 
-   useEffect(() => {
-     if (ActiveCategoryId) {
-       setFilteredProjects(
-         projects.filter((project) =>
-           project.category.includes(ActiveCategoryId)
-         )
-       )
-     }
-     else{
+  // Create a list of unique categories by mapping and filtering the projects array
+  const CategoryList = projects
+    .flatMap((project) =>
+      project.category.map((catId: number, index: number) => ({
+        id: catId, // Category ID
+        title: project.category_title[index], // Category title
+        slug: slugify(project.category_title[index]), // Convert title to slug
+        description: project.category_description[index], // Category description
+      }))
+    )
+    .filter(
+      (category, index: number, self) =>
+        index === self.findIndex((cat) => cat.id === category.id) // Filter to ensure unique categories
+    )
 
-       setFilteredProjects(projects.filter((project) => project.is_key_highlight))
-     }
-     
-   }, [ActiveCategoryId, projects])
+  // Find the active category ID based on the slug from the URL
+  const ActiveCategoryId = CategoryList.find(
+    (category) => category.slug === ActiveCategory
+  )?.id
 
+  // Filter projects based on the active category or key highlights
+  useEffect(() => {
+    if (ActiveCategoryId) {
+      // If there's an active category, filter projects that belong to it
+      setFilteredProjects(
+        projects.filter((project) =>
+          project.category.includes(ActiveCategoryId)
+        )
+      )
+    } else {
+      // If no category is selected, filter projects by the key highlight flag
+      setFilteredProjects(
+        projects.filter((project) => project.is_key_highlight)
+      )
+    }
+  }, [ActiveCategoryId, projects]) // Dependencies: ActiveCategoryId, projects
 
-   console.log(FilteredProjects)
+  // Render loading, error, or filtered projects based on the state
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Loading...</p> // Show loading message while fetching projects
   }
 
   if (error) {
-    return <p>Error: {error}</p>
+    return <p>Error: {error}</p> // Display error message if there is an error
   }
-
-  console.log(projects.length)
-
-   
-  
   return (
     <>
-    {
-      activeProjectId > 0 && <ProjectDetail projects={projects} activeProjectId={activeProjectId} setActiveProjectId={setActiveProjectId} />
-    }
+      {activeProjectId > 0 && (
+        <ProjectDetail
+          projects={projects}
+          activeProjectId={activeProjectId}
+          setActiveProjectId={setActiveProjectId}
+        />
+      )}
 
       <div className="max-w-7xl bg-white shadow-xl grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mx-auto gap-5 p-4 rounded-md -mt-16">
         <div
@@ -115,14 +125,22 @@ const PortfolioListing = () => {
               />
               <div className="grid grid-cols-1 gap-5 mt-10">
                 {FilteredProjects?.map((project) => (
-                  <ProjectCard setActiveProjectId={setActiveProjectId} key={project.id} project={project} />
+                  <ProjectCard
+                    setActiveProjectId={setActiveProjectId}
+                    key={project.id}
+                    project={project}
+                  />
                 ))}
               </div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10  mt-20">
               {FilteredProjects?.map((project) => (
-                <KeyHighlightsCard setActiveProjectId={setActiveProjectId} key={project.id} project={project} />
+                <KeyHighlightsCard
+                  setActiveProjectId={setActiveProjectId}
+                  key={project.id}
+                  project={project}
+                />
               ))}
             </div>
           )}
